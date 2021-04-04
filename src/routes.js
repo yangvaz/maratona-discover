@@ -10,6 +10,7 @@ const profile = {
   "days-per-week": 5,
   "hours-per-day": 5,
   "vacation-per-year": 4,
+  "value-hour": 75,
 };
 
 const jobs = [
@@ -18,22 +19,57 @@ const jobs = [
     name: "Pizzaria Guloso",
     "daily-hours": 2,
     "total-hours": 60,
-    created_at: Date.now()
+    created_at: Date.now(),
   },
   {
     id: 2,
     name: "OneTwo Project",
     "daily-hours": 3,
     "total-hours": 47,
-    created_at: Date.now()
+    created_at: Date.now(), 
   },
 ]
 
-routes.get("/", (req, res) => res.render(views + "index", { profile, jobs }));
+function remainingDays(job) {
+
+  const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
+
+  const createdDate = new Date(job.created_at)
+  const dueDay = createdDate.getDate() + Number(remainingDays)
+  const dueDate = createdDate.setDate(dueDay)
+
+  const timeDiffInMs = dueDate - Date.now()
+
+  // transform ms em days
+  const dayInMs = 1000 * 60 * 60 * 24
+  const dayDiff = Math.floor(timeDiffInMs / dayInMs)
+
+  // restam xx dias
+  return dayDiff
+}
+
+routes.get("/", (req, res) => {
+  
+  const updatedJobs = jobs.map((job) => {
+    
+   const remaining = remainingDays(job)
+   const status = remaining <= 0 ? 'done' : 'progress'
+
+    return {
+      ...job,
+      remaining,
+      status,
+      budget: profile["value-hour"] * job["total-hours"]
+    }
+  })
+  
+  res.render(views + "index", { profile, jobs: updatedJobs })
+  
+});
 routes.get("/job", (req, res) => res.render(views + "job"));
 routes.post("/job", (req, res) => {
 
-  // const lastId = jobs[jobs.length - 1]?.id || 1;
+  // const lastId = jobs[jobs.length - 1]?.id || 1;  // atualizar pro node 14 e trocar pra este
   const lastId = jobs[jobs.length - 1] ? jobs[jobs.length - 1].id : 1;
 
   jobs.push({
