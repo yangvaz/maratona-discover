@@ -1,8 +1,6 @@
 const express = require("express");
 const routes = express.Router();
 
-const views = __dirname + "/views/";
-
 const Profile = {
   data: {
     name: "Yan Garcia",
@@ -15,7 +13,7 @@ const Profile = {
   },
   controllers: {
     index(req, res) {
-      return res.render(views + "profile", { profile: Profile.data })
+      return res.render("profile", { profile: Profile.data })
     },
     update(req, res) {
       const data = req.body
@@ -72,10 +70,10 @@ const Job = {
         };
       });
 
-      return res.render(views + "index", { profile: Profile.data, jobs: updatedJobs });
+      return res.render("index", { profile: Profile.data, jobs: updatedJobs });
     },
     create(req, res) {
-      res.render(views + "job");
+      res.render("job");
     },
     save(req, res) {
       // const lastId = jobs[jobs.length - 1]?.id || 1;  // atualizar pro node 14 e trocar pra este
@@ -104,7 +102,7 @@ const Job = {
 
       job.budget = Job.services.calculateBudget(job, Profile.data["value-hour"])
 
-      return res.render(views + "job-edit", {job})
+      return res.render("job-edit", {job})
     },
     update(req, res) {
       const jobId = req.params.id
