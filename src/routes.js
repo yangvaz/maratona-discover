@@ -81,7 +81,7 @@ const Job = {
       // const lastId = jobs[jobs.length - 1]?.id || 1;  // atualizar pro node 14 e trocar pra este
       const lastId = Job.data[Job.data.length - 1]
         ? Job.data[Job.data.length - 1].id
-        : 1;
+        : 0;
 
       Job.data.push({
         id: lastId + 1,
@@ -94,7 +94,6 @@ const Job = {
       return res.redirect("/");
     },
     show(req, res) {
-
       const jobId = req.params.id
 
       const job = Job.data.find(job => Number(job.id) === Number(jobId))
@@ -134,6 +133,14 @@ const Job = {
 
       res.redirect('/job/' + jobId)
 
+    },
+    delete(req, res) {
+      const jobId = req.params.id
+      console.log(jobId)
+
+      Job.data = Job.data.filter(job => Number(job.id) !== Number(jobId))
+
+      return res.redirect('/')
     }
   },
 
@@ -161,8 +168,9 @@ const Job = {
 routes.get("/", Job.controllers.index);
 routes.get("/job", Job.controllers.create);
 routes.post("/job", Job.controllers.save);
-routes.get("/job/:id", Job.controllers.show);
+routes.get("/job/:id" , Job.controllers.show);
 routes.post("/job/:id", Job.controllers.update);
+routes.post("/job/delete/:id", Job.controllers.delete);
 routes.get("/profile", Profile.controllers.index);
 routes.post("/profile", Profile.controllers.update);
 

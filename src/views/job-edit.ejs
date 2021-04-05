@@ -87,14 +87,11 @@
             form="form-job" 
             type="submit" 
             title="Salvar Dados">Salvar</button>
-          <a 
-            href="#" 
-            class="button gray open-modal"
-            >
+          <a href="#" class="button gray open-modal">
             <img 
               src="/images/trash-24.svg" 
               alt="Cancelar cadastro" 
-              title="Cancelar cadastro">
+              title="Cancelar cadastro" />
           </a>
         </div>
       </aside>
@@ -112,7 +109,7 @@
         <footer>
           <a 
             class="button gray" 
-            href="#">Cancelar</a>
+            href="#"> Cancelar </a>
           <button
             class="button red"
             type="submit"
@@ -121,7 +118,7 @@
       </div>
       <form 
         method="post" 
-        action="/job/delete/{JOBID}" 
+        action="/job/delete/<%= job.id %>" 
         id="delete-job"></form>
     </div>
     <!-- end modal-wrapper -->
