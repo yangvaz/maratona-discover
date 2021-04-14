@@ -9,17 +9,16 @@ module.exports = {
   save(req, res) {
     const jobs = Job.get();
     // const lastId = jobs[jobs.length - 1]?.id || 1;  // atualizar pro node 14 e trocar pra este
-    const lastId = jobs[jobs.length - 1]
-      ? jobs[jobs.length - 1].id
-      : 0;
+    const lastId = jobs[jobs.length - 1] ? jobs[jobs.length - 1].id : 0;
 
-    jobs.push({
+    Job.create({
       id: lastId + 1,
       name: req.body.name,
       "daily-hours": req.body["daily-hours"],
       "total-hours": req.body["total-hours"],
       created_at: Date.now(),
     });
+
     return res.redirect("/");
   },
   show(req, res) {
@@ -55,7 +54,7 @@ module.exports = {
       "daily-hours": req.body["daily-hours"],
     };
 
-     const newJobs = jobs.map((job) => {
+    const newJobs = jobs.map((job) => {
       if (Number(job.id) === Number(jobId)) {
         job = updatedJob;
       }
