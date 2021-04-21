@@ -12,7 +12,7 @@ await db.exec(`CREATE TABLE profile (
   monthly_budget INT,
   days_per_week INT,
   hours_per_day INT,
-  vacation_per_day INT,
+  vacation_per_year INT,
   value_hour INT
 )`);
 
@@ -30,14 +30,16 @@ await db.run(`INSERT INTO profile(
   monthly_budget,
   days_per_week,
   hours_per_day,
-  vacation_per_day
+  vacation_per_year,
+  value_hour
   ) VALUES (
     "yan",
     "https://avatars.githubusercontent.com/u/20269645?v=4",
     3000,
     5,
     5,
-    4
+    4,
+    70
   );
 `);
 
